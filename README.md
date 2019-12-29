@@ -18,24 +18,22 @@ For example `my-var-1` by `my_var_1`.
 Role Variables
 --------------
 
-- Path to Ansible local facts
+- Path to Ansible local facts  
 `local_facts_path: /etc/ansible/facts.d`
 
-- Local facts file name. If changed for example to "different_file.facts",
-  also the key will be {{ ansible_local['different_file']['some_variable'] }}
+- Local facts file name. If changed for example to "different_file.facts", also the key will be {{ ansible_local['different_file']['some_variable'] }}  
 `local_facts_file: tfvars.fact`
 
-- Enable if used with DT Pan-Net ALiEn (Application Lifecycle Engine)
+- Enable if used with DT Pan-Net ALiEn (Application Lifecycle Engine)  
 `ALiEn: false`
 
-- Path to Terraform variables file
- (ommited if variable ALiEn is true)
+- Path to Terraform variables file (ommited if variable ALiEn is true)  
 `tfvars_path: files`
 
-- Terraform variables file name
+- Terraform variables file name  
 `tfvars_file: vars.tfvars`
 
-- Reload the Ansible facts after local facts are created
+- Reload the Ansible facts after local facts are created  
 `reload_facts: false`
 
 Example Playbook
