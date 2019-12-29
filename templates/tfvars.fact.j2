@@ -1,0 +1,8 @@
+{
+{% for line in tfvars_content.stdout_lines %}
+{{ line }}
+{%- if not loop.last %}
+,
+{% endif %}
+{% endfor %}{{ '\n' -}}
+}

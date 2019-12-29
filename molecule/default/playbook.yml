@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  become: yes
+  vars:
+    tfvars_path: ./tests
+    reload_facts: true
+  roles:
+    - role: ansible-tfvars2facts
+  post_tasks:
+    - name: Test to red the variables
+      debug:
+        msg: "{{ ansible_local['tfvars']['testvar1'] }}, \
+              {{ ansible_local['tfvars']['test_var_2'] }}, \
+              {{ ansible_local['tfvars']['test_var_3'] }}, \
+              {{ ansible_local['tfvars']['test_v_a_r_4'] }}, \
+              {{ ansible_local['tfvars']['test_var5'] }}, \
+              {{ ansible_local['tfvars']['testvar_6'] }}, \
+              {{ ansible_local['tfvars']['test_var_7'] }}, \
+              {{ ansible_local['tfvars']['test_var8_zones'][0] }}"

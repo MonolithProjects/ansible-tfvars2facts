@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  author: Michal Muransky
+  role_name: tfvars2facts
+  description: Translate the Terraform tfvars to the Ansible local facts.
+  company: MonolithProjects
+  license: "license (MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - terraform
+    - tfvars
+    - local
+    - facts
+    - ansible
