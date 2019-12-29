@@ -1,14 +1,12 @@
+testvar1 = "value1"
 
-testvar1 = "some-value_1"
-test-var_2 = "some-value-2"
-test-var-3 = "some-value_x-3"
-test-v-a-r_4 = "some-value-x-4" #Comment 1
+test_var-2 = "value-2"
+test-var_3 = "value_3"
+test_v_a_r_4  ="value-4" #Comment1
+test-var5 = "value-5 "
+#Comment2
+ # Comment3
+testvar_6= " value-6 "
+test_var_7 = "value 7"
 
-test-var5 = "some_value-another_word-5" ## Comment2
-
-testvar_6 = "tdg_tm_m2m_ref_ext_6"
-# comment3
-##  Comment4
-  # "Comment5"
-test_var-7 = "192.168.0.7"
-test_var8-zones = ["zone8-1","zone8-2",]
+test-var8-zones = ["value0-8", "value1-8",]
