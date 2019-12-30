@@ -2,7 +2,7 @@
 |:--------------|
 |[![](https://github.com/MonolithProjects/ansible-tfvars2facts/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-tfvars2facts/actions)|
 
-<img src="https://github.com/MonolithProjects/ansible-tfvars2facts/blob/media/logo_rectangle.png" width="13%" height="13%" alt="Logo" align="right"/>
+<img src="https://github.com/MonolithProjects/ansible-tfvars2facts/raw/media/logo_rectangle.png" width="13%" height="13%" alt="Logo" align="right"/>
 
 tfvars2facts
 =========
