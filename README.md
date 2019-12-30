@@ -2,6 +2,8 @@
 |:--------------|
 |[![](https://github.com/MonolithProjects/ansible-tfvars2facts/workflows/Test%20build/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-tfvars2facts/actions)|
 
+<img src="https://github.com/MonolithProjects/ansible-tfvars2facts/blob/media/logo_rectangle.png" width="13%" height="13%" alt="Logo" align="right"/>
+
 tfvars2facts
 =========
 
