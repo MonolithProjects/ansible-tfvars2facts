@@ -1,8 +1,8 @@
-| Master branch |
-|:--------------|
-|[![](https://github.com/MonolithProjects/ansible-tfvars2facts/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-tfvars2facts/actions)|
-
 <img src="https://github.com/MonolithProjects/ansible-tfvars2facts/raw/media/logo_rectangle.png" width="13%" height="13%" alt="Logo" align="right"/>
+
+[![](https://github.com/MonolithProjects/ansible-tfvars2facts/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-tfvars2facts/actions)
+<img src="https://img.shields.io/ansible/quality/45539"/>
+<img src="https://img.shields.io/ansible/role/d/45539"/>
 
 tfvars2facts
 =========
@@ -25,19 +25,19 @@ local_facts_path: /etc/ansible/facts.d
 
 # Local facts file name. If changed for example to "different_file.facts",
 # also the key will be {{ ansible_local['different_file']['some_variable'] }}  
-`local_facts_file: tfvars.fact`
+local_facts_file: tfvars.fact
 
 # Enable if used with DT Pan-Net ALiEn (Application Life-cycle Engine)  
-`ALiEn: false`
+ALiEn: false
 
 # Path to Terraform variables file (ommited if variable ALiEn is true)  
-`tfvars_path: files`
+tfvars_path: files
 
 # Terraform variables file name  
-`tfvars_file: vars.tfvars`
+tfvars_file: vars.tfvars
 
 # Reload the Ansible facts after local facts are created  
-`reload_facts: false`
+reload_facts: false
 ```
 
 Example Playbook
