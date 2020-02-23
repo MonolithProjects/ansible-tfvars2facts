@@ -9,18 +9,53 @@ on:
         - cron: '0 4 * * 0'
 
 jobs:
-    build:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-18.04]
+    lint:
+        runs-on: ubuntu-latest
         steps:
           - name: checkout
             uses: actions/checkout@v2
-            with:
-              path: "${{ github.repository }}"
           - name: molecule
             uses: robertdebock/molecule-action@2.0.0
             with:
-              image: ${{ matrix.image }}
-              options: "--parallel all"
+              entrypoint: /usr/local/bin/molecule
+              args: lint
+test:
+  needs:
+    - lint
+  runs-on: ubuntu-latest
+  strategy:
+    fail-fast: false
+    matrix:
+      config:
+        - image: "debian"
+          tag: "latest"
+        - image: "debian"
+          tag: "testing"
+        - image: "debian"
+          tag: "unstable"
+        - image: "centos"
+          tag: "7"
+        - image: "centos"
+          tag: "latest"
+        - image: "fedora"
+          tag: "30"
+        - image: "fedora"
+          tag: "latest"
+        - image: "fedora"
+          tag: "rawhide"
+        - image: "opensuse"
+          tag: "latest"
+        - image: "ubuntu"
+          tag: "latest"
+
+steps:
+  - name: checkout
+    uses: actions/checkout@v2
+    with:
+      path: "${{ github.repository }}"
+  - name: molecule
+    uses: robertdebock/molecule-action@2.0.0
+    with:
+      image: ${{ matrix.config.image }}
+      tag: ${{ matrix.config.tag }}
+      options: "--parallel all"
