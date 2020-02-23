@@ -13,9 +13,7 @@ provisioner:
   lint:
     name: ansible-lint
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible
 scenario:
   name: default
   test_sequence:
