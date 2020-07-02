@@ -6,56 +6,18 @@ on:
             - master
             # - develop
     schedule:
-        - cron: '0 4 * * 0'
-
+        - cron: '0 6 * * 0'
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        steps:
-          - name: checkout
-            uses: actions/checkout@v2
-          - name: molecule
-            uses: robertdebock/molecule-action@2.0.0
-            with:
-              entrypoint: /usr/local/bin/molecule
-              args: lint
-    test:
-      needs:
-        - lint
-      runs-on: ubuntu-latest
-      strategy:
-        fail-fast: false
-        matrix:
-          config:
-            - image: "debian"
-              tag: "latest"
-            - image: "debian"
-              tag: "testing"
-            - image: "debian"
-              tag: "unstable"
-            - image: "centos"
-              tag: "7"
-            - image: "centos"
-              tag: "latest"
-            - image: "fedora"
-              tag: "30"
-            - image: "fedora"
-              tag: "latest"
-            - image: "fedora"
-              tag: "rawhide"
-            - image: "opensuse"
-              tag: "latest"
-            - image: "ubuntu"
-              tag: "latest"
-
-      steps:
-        - name: checkout
-          uses: actions/checkout@v2
-          with:
-            path: "${{ github.repository }}"
-        - name: molecule
-          uses: robertdebock/molecule-action@2.0.0
-          with:
-            image: ${{ matrix.config.image }}
-            tag: ${{ matrix.config.tag }}
-            options: "--parallel all"
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
+      - name: Molecule for Ansible
+        uses: MonolithProjects/action-molecule@v1.2.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
