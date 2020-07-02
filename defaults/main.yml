@@ -9,12 +9,5 @@ local_facts_file: tfvars.fact
 # Enable if used with DT Pan-Net ALiEn (Application Lifecycle Engine)
 ALiEn: false
 
-# Path to Terraform variables file
-# (ommited if variable ALiEn is true)
-tfvars_path: files
-
 # Terraform variables file name
 tfvars_file: vars.tfvars
-
-# Reload the Ansible facts after local facts are created
-reload_facts: false
