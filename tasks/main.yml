@@ -11,6 +11,14 @@
   delegate_to: localhost
   run_once: yes
 
+- name: Create /etc/ansible/facts.d folder
+  file:
+    path: "{{ local_facts_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Copy Terraform vars to the hosts
   copy:
     src: /tmp/tfvars.json
