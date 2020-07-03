@@ -1,10 +1,11 @@
 ---
 - name: Converge
   hosts: all
-  gather_facts: false
+  gather_facts: yes
   become: yes
   vars:
     tfvars_path: ./tests
+    reload_facts: yes
   roles:
     - role: ansible-tfvars2facts
   post_tasks:

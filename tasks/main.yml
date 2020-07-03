@@ -23,3 +23,7 @@
   copy:
     src: /tmp/tfvars.json
     dest: "{{ local_facts_path }}/{{ local_facts_file }}"
+
+- name: Read new Ansible facts
+  setup:
+  when: reload_facts
