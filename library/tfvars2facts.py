@@ -2,66 +2,62 @@
 # Copyright: (c) 2020, Michal Muransky <michal.muransky@pan-net.eu>
 # MIT License (see COPYING or https://mit-license.org/)
 
-DOCUMENTATION = '''
+from ansible.module_utils._text import to_bytes, to_native
+DOCUMENTATION = r'''
 ---
-module: my_test
+module: tfvars2facts
 
-short_description: This is my test module
+short_description: Translate the Terraform tfvrs file to Ansible Local Facts (JSON).
 
 version_added: "2.4"
 
 description:
-    - "This is my longer description explaining my test module"
+    - This Ansible module translates the Terraform tfvrs file to Ansible Local Facts.
+    - Use the C(tfvars2facts) module if you want to use Terraform variables from tfvars in the Ansible.
+    - You can run this module locally and copy the output JSON file to /etc/ansib.e/facts.d/ directory
+      on the destination host.
 
 options:
-    name:
+    src:
         description:
-            - This is the message to send to the test module
+            - This is path to the tfvars file
+            - This can be absolute or relative.
         required: true
-    new:
+        default: ./vars.tfvars
+    dest:
         description:
-            - Control to demo if the result of this module is changed or not
-        required: false
+            - Path and file name for the JSON output.
+        required: true
+        default: ./tfars.json
 
-extends_documentation_fragment:
-    - azure
+seealso:
+- module: copy
 
 author:
-    - Your Name (@yourhandle)
+    - Michal Muransky (michal.muransky@pan-net.eu)
 '''
 
-EXAMPLES = '''
-# Pass in a message
-- name: Test with a message
-  my_test:
-    name: hello world
-
-# pass in a message and have changed true
-- name: Test with a message and changed output
-  my_test:
-    name: hello world
-    new: true
-
-# fail the module
-- name: Test failure of the module
-  my_test:
-    name: fail me
+EXAMPLES = r'''
+- name: Run the translation on the runner
+  tfvars2facst:
+    src: /home/myuser/vars.tfvars
+    dest: /tmp/tfvars.json
+  delegate_to: localhost
+  run_once: yes
 '''
 
 RETURN = '''
-original_message:
-    description: The original name param that was passed in
-    type: str
-    returned: always
 message:
-    description: The output message that the test module generates
+    description: Terraform tfvars translated to Ansible Local Facts
     type: str
     returned: always
 '''
 
 import io
 import jinja2
+import os
 import re
+import time
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -71,31 +67,38 @@ def run_module():
 
     module = AnsibleModule(
         argument_spec=dict(
-            tfvars=dict(type='path', default='./vars.tfvars'),
-            facts=dict(type='path', default='/tmp/tfars2facts.json'),
+            src=dict(type='path', default='./vars.tfvars'),
+            dest=dict(type='path', default='./tfars.json'),
         ),
         supports_check_mode=True,
     )
 
     result = dict(
         changed=False,
-        original_message='',
-        message=''
+        message='Terraform tfvars translated to Ansible Local Facts'
     )
-
-    if module.check_mode:
-        module.exit_json(**result)
-
-    tfvars = module.params['tfvars']
-    facts = module.params['facts']
-
+    
+    tfvars = module.params['src']
+    facts = module.params['dest']
+    if not os.path.exists(tfvars):
+        module.fail_json(
+            msg="Terraform tfvars file %s not found" % (tfvars))
     tmp = process_tfvars(tfvars)
     tmp = render_template(tmp)
-    write_ouptut(facts, tmp)
-
-    result['changed'] = True
-    if module.params['tfvars'] == 'fail me':
-        module.fail_json(msg='You requested this to fail', **result)
+    if not module.check_mode:
+        if os.path.isfile(facts):
+            if tmp == open(facts).read():
+                result['changed'] = False
+                module.exit_json(**result)
+        write_ouptut(facts, tmp)
+        if module.params['dest']:
+            modified = os.stat(facts).st_mtime
+            now = time.time()
+            if (modified - now) < 1:
+                result['changed'] = True
+            else:
+                result['changed'] = False
+                module.fail_json(msg='Temporarry Ansible Local Facts file was not generated.', **result)
     module.exit_json(**result)
 
 
