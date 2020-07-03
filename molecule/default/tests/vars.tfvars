@@ -1,12 +1,15 @@
-testvar1 = "value1"
+# Please specify the operating system you want to deploy on your VM:
+os_jumphost_template            = "RedHat Linux 7"
+os_app_template                 = "RedHat Linux 7"
 
-test_var-2 = "value-2"
-test-var_3 = "value_3"
-test_v_a_r_4  ="value-4" #Comment1
-test-var5 = "value-5 "
-#Comment2
- # Comment3
-testvar_6= " value-6 "
-test_var_7 = "value 7"
+#Please specify the name of your VMs:
+vm_name                = ["genDMZLB-1", "genDMZLB_-2"]
 
-test-var8-zones = ["value0-8", "value1-8",]
+# Please specify the name of the folder where the VM should be placed within the hosts and templates view of the vCenter:
+folder                 = "LinuX-LBs"
+
+## Please specify the characteristics of your VM:
+vm_count               = "2"
+memory                 = "1024" #hoho comment
+vip-address-frontend    = ["192.168.192.20", "192.168.192.21"]
+vip-ad-d-r-e-s_s-backend-x_y    = "192.168.67.1"
