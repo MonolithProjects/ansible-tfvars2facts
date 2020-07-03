@@ -12,5 +12,6 @@
   run_once: yes
 
 - name: Copy Terraform vars to the hosts
-    copy: /tmp/tfvars.json
+  copy: 
+    src: /tmp/tfvars.json
     dest: "{{ local_facts_path }}/{{ local_facts_file }}"
