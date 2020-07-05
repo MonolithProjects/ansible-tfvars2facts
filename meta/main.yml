@@ -5,7 +5,7 @@ galaxy_info:
   description: Translate the Terraform tfvars to the Ansible local facts.
   company: MonolithProjects
   license: "license (MIT)"
-  min_ansible_version: 2.4
+  min_ansible_version: 2.8
   platforms:
     - name: EL
       versions:

@@ -7,15 +7,14 @@ DOCUMENTATION = r'''
 ---
 module: tfvars_facts
 
-short_description: Translate the Terraform tfvrs file to Ansible Local Facts (JSON).
+short_description: Translate the Terraform tfavrs file to Ansible Local Facts (JSON).
 
 version_added: "2.4"
 
 description:
     - This Ansible module translates the Terraform tfvrs file to Ansible Local Facts.
-    - Use the C(tfvars_facts) module if you want to use Terraform variables from tfvars in the Ansible.
-    - You can run this module locally and copy the output JSON file to /etc/ansib.e/facts.d/ directory
-      on the destination host.
+    - You can run this module on the remote hosts or run it locally once and copy the output JSON file to /etc/ansib.e/facts.d/ directory
+      on the remote host.
 
 options:
     src:
@@ -38,15 +37,20 @@ author:
 '''
 
 EXAMPLES = r'''
+- name: Run the translation on the remote hosts with C(files/vars.tfvars) to C(/tmp/tfvars.json)
+  tfvars_facst:
+  delegate_to: localhost
+  run_once: yes
+
 - name: Run the translation on the runner
-  tfvars2facst:
+  tfvars_facst:
     src: /home/myuser/vars.tfvars
-    dest: /tmp/tfvars.json
+    dest: /mydir/tfvars.json
   delegate_to: localhost
   run_once: yes
 '''
 
-RETURN = '''
+RETURN = r'''
 message:
     description: Terraform tfvars translated to Ansible Local Facts
     type: str
@@ -61,36 +65,34 @@ import time
 
 from ansible.module_utils.basic import AnsibleModule
 
-def run_module():
+def main():
 
     global module
 
     module = AnsibleModule(
         argument_spec=dict(
-            src=dict(type='path', default='vars.tfvars'),
-            dest=dict(type='path', default='tfvars.json'),
+            src=dict(type='path', default='files/vars.tfvars'),
+            dest=dict(type='path', default='/tmp/tfvars.json'),
         ),
         supports_check_mode=True,
     )
-
     result = dict(
         changed=False,
         message='Terraform tfvars translated to Ansible Local Facts'
     )
-    
     tfvars = module.params['src']
     facts = module.params['dest']
     if not os.path.exists(tfvars):
         module.fail_json(
             msg="Terraform tfvars file %s not found" % (tfvars))
-    tmp = process_tfvars(tfvars)
-    tmp = render_template(tmp)
+    tfvars_processed = process_tfvars(tfvars)
+    tfvars_processed = render_template(tfvars_processed)
     if not module.check_mode:
         if os.path.isfile(facts):
-            if tmp == open(facts).read():
+            if tfvars_processed == open(facts).read():
                 result['changed'] = False
                 module.exit_json(**result)
-        write_ouptut(facts, tmp)
+        write_ouptut(facts, tfvars_processed)
         if module.params['dest']:
             modified = os.stat(facts).st_mtime
             now = time.time()
@@ -103,6 +105,9 @@ def run_module():
 
 
 def process_tfvars(tfvars):
+    '''
+    Create virtual object and fill it with edited tfvars
+    '''
     output = io.StringIO()
     tfvars = open(tfvars)
     for line in tfvars.readlines():
@@ -120,7 +125,11 @@ def process_tfvars(tfvars):
     output = output.getvalue()
     return output
 
+
 def render_template(data):
+    '''
+    Render the jinja2 template with the tfvars data
+    '''
     template_body = '''
 {
     {%+ for line in lines %}{{ line }}{% if not loop.last %},
@@ -132,13 +141,15 @@ def render_template(data):
     output = template.render(lines=lines)
     return output
 
+
 def write_ouptut(facts, output_data):
+    '''
+    Write the file to the disk
+    '''
     with open(facts, "w") as output_file:
         for line in output_data:
             output_file.write(line)
 
-def main():
-    run_module()
 
 if __name__ == '__main__':
     main()

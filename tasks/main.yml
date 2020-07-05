@@ -7,7 +7,7 @@
 - name: Translate Terraform tfvars to Ansible Local Facts
   tfvars_facts:
     src: "{{ tfvars_path }}/{{ tfvars_file }}"
-    dest: /tmp/tfvars.json
+    dest: tfvars.json
   delegate_to: localhost
   run_once: yes
 
@@ -21,7 +21,7 @@
 
 - name: Copy Terraform vars to the hosts
   copy:
-    src: /tmp/tfvars.json
+    src: tfvars.json
     dest: "{{ local_facts_path }}/{{ local_facts_file }}"
 
 - name: Read new Ansible facts
