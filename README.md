@@ -1,7 +1,7 @@
 # GitHub Actions Runner
 
 [![Galaxy Quality](https://img.shields.io/ansible/quality/45539?style=flat&logo=ansible)](https://galaxy.ansible.com/monolithprojects/tfvars2facts)
-[![Role version](https://img.shields.io/github/v/release/MonolithProjects/tfvars2facts)](https://galaxy.ansible.com/monolithprojects/tfvars2facts)
+[![Role version](https://img.shields.io/github/v/release/MonolithProjects/ansible-tfvars2facts)](https://galaxy.ansible.com/monolithprojects/tfvars2facts)
 [![Role downloads](https://img.shields.io/ansible/role/d/45539)](https://galaxy.ansible.com/monolithprojects/tfvars2facts)
 [![GitHub Actions](https://github.com/MonolithProjects/ansible-tfvars2facts/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-tfvars2facts/actions)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-tfvars2facts)](https://github.com/MonolithProjects/ansible-tfvars2facts/blob/master/LICENSE)
