@@ -4,67 +4,12 @@
     tfvars_path: "../../envs/{{ lookup('env', 'TARGET_ENVIRONMENT') }}"
   when: ALiEn
 
-- name: Edit tfvars
-  copy:
+- name: Translate Terraform tfvars to Ansible Local Facts
+  tfvars_facts:
     src: "{{ tfvars_path }}/{{ tfvars_file }}"
-    dest: /tmp/tfvars_file
-    mode: 0600
+    dest: tfvars.json
   delegate_to: localhost
-  run_once: true
-
-- name: Remove comments from tfvars
-  replace:
-    path: '/tmp/tfvars_file'
-    regexp: '#(?:.*)+'
-    replace: ''
-  delegate_to: localhost
-  run_once: true
-
-- name: Remove empty lines from tfvars
-  replace:
-    path: '/tmp/tfvars_file'
-    regexp: '^(?:[\t ]*(?:\r?\n|\r))+'
-    replace: ''
-  delegate_to: localhost
-  run_once: true
-
-- name: Replace hyphen by underscore in variable names
-  replace:
-    path: '/tmp/tfvars_file'
-    regexp: '-(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)'
-    replace: '_'
-  delegate_to: localhost
-  run_once: true
-
-- name: Place variable inside the quotation marks
-  replace:
-    path: '/tmp/tfvars_file'
-    regexp: '(^[\w\d_]+)'
-    replace: '"\1"'
-  delegate_to: localhost
-  run_once: true
-
-- name: Remove last comma from the list and make it JSON compatible
-  replace:
-    path: '/tmp/tfvars_file'
-    regexp: ',(?=\s*]\s*$)'
-    replace: ''
-  delegate_to: localhost
-  run_once: true
-
-- name: Rplace sign equal by comma
-  replace:
-    path: '/tmp/tfvars_file'
-    regexp: '\s*=\s*'
-    replace: ': '
-  delegate_to: localhost
-  run_once: true
-
-- name: Read tfvars
-  command: cat /tmp/tfvars_file
-  register: tfvars_content
-  delegate_to: localhost
-  run_once: true
+  run_once: yes
 
 - name: Create /etc/ansible/facts.d folder
   file:
@@ -74,14 +19,10 @@
     group: root
     mode: 0755
 
-- name: Create local facts file on the servers
-  template:
-    src: templates/tfvars.fact.j2
+- name: Copy Terraform vars to the hosts
+  copy:
+    src: tfvars.json
     dest: "{{ local_facts_path }}/{{ local_facts_file }}"
-    owner: root
-    group: root
-    mode: 0644
-    force: yes
 
 - name: Read new Ansible facts
   setup:

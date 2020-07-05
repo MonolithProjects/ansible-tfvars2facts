@@ -1,21 +1,21 @@
 ---
 - name: Converge
   hosts: all
-  gather_facts: false
+  gather_facts: yes
   become: yes
   vars:
     tfvars_path: ./tests
-    reload_facts: true
+    reload_facts: yes
   roles:
     - role: ansible-tfvars2facts
   post_tasks:
     - name: Test to red the variables
       debug:
-        msg: "{{ ansible_local['tfvars']['testvar1'] }}, \
-              {{ ansible_local['tfvars']['test_var_2'] }}, \
-              {{ ansible_local['tfvars']['test_var_3'] }}, \
-              {{ ansible_local['tfvars']['test_v_a_r_4'] }}, \
-              {{ ansible_local['tfvars']['test_var5'] }}, \
-              {{ ansible_local['tfvars']['testvar_6'] }}, \
-              {{ ansible_local['tfvars']['test_var_7'] }}, \
-              {{ ansible_local['tfvars']['test_var8_zones'][0] }}"
+        msg: "{{ ansible_local['tfvars']['os_jumphost_template'] }}, \
+              {{ ansible_local['tfvars']['os_app_template'] }}, \
+              {{ ansible_local['tfvars']['vm_name'][1] }}, \
+              {{ ansible_local['tfvars']['folder'] }}, \
+              {{ ansible_local['tfvars']['vm_count'] }}, \
+              {{ ansible_local['tfvars']['memory'] }}, \
+              {{ ansible_local['tfvars']['vip_address_frontend'][0] }}, \
+              {{ ansible_local['tfvars']['vip_ad_d_r_e_s_s_backend_x_y'] }}"
