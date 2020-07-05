@@ -5,7 +5,7 @@
   when: ALiEn
 
 - name: Translate Terraform tfvars to Ansible Local Facts
-  tfvars2facts:
+  tfvars_facts:
     src: "{{ tfvars_path }}/{{ tfvars_file }}"
     dest: /tmp/tfvars.json
   delegate_to: localhost

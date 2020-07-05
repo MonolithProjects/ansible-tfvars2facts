@@ -2,10 +2,10 @@
 # Copyright: (c) 2020, Michal Muransky <michal.muransky@pan-net.eu>
 # MIT License (see COPYING or https://mit-license.org/)
 
-from ansible.module_utils._text import to_bytes, to_native
+
 DOCUMENTATION = r'''
 ---
-module: tfvars2facts
+module: tfvars_facts
 
 short_description: Translate the Terraform tfvrs file to Ansible Local Facts (JSON).
 
@@ -13,7 +13,7 @@ version_added: "2.4"
 
 description:
     - This Ansible module translates the Terraform tfvrs file to Ansible Local Facts.
-    - Use the C(tfvars2facts) module if you want to use Terraform variables from tfvars in the Ansible.
+    - Use the C(tfvars_facts) module if you want to use Terraform variables from tfvars in the Ansible.
     - You can run this module locally and copy the output JSON file to /etc/ansib.e/facts.d/ directory
       on the destination host.
 
@@ -67,8 +67,8 @@ def run_module():
 
     module = AnsibleModule(
         argument_spec=dict(
-            src=dict(type='path', default='./vars.tfvars'),
-            dest=dict(type='path', default='./tfars.json'),
+            src=dict(type='path', default='vars.tfvars'),
+            dest=dict(type='path', default='tfvars.json'),
         ),
         supports_check_mode=True,
     )
