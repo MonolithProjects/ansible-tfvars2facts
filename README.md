@@ -1,4 +1,4 @@
-# GitHub Actions Runner
+# Tfvars2facts (Ansible Role)
 
 [![Galaxy Quality](https://img.shields.io/ansible/quality/45539?style=flat&logo=ansible)](https://galaxy.ansible.com/monolithprojects/tfvars2facts)
 [![Role version](https://img.shields.io/github/v/release/MonolithProjects/ansible-tfvars2facts)](https://galaxy.ansible.com/monolithprojects/tfvars2facts)
@@ -6,10 +6,10 @@
 [![GitHub Actions](https://github.com/MonolithProjects/ansible-tfvars2facts/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-tfvars2facts/actions)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-tfvars2facts)](https://github.com/MonolithProjects/ansible-tfvars2facts/blob/master/LICENSE)
 
-This Ansible module translates the Terraform tfvrs file to Ansible Local Facts.
-You can run this module on the remote hosts or run it locally once and copy the output JSON file to /etc/ansib.e/facts.d/ directory on the remote host.  
+This Ansible role translates the Terraform tfvrs file to Ansible Local Facts.
+The result is saved on the remote host(s) in /etc/ansib.e/facts.d/ directory as JSON file.  
 
-Variables can be used in Ansible by following syntax `{{ ansible_local['tfvars']['my_variable'] }}`.  
+You can query the tfvars variables in Ansible by following syntax `{{ ansible_local['tfvars']['my_variable'] }}`.  
 
 **Note:**
 Since the Ansible variable names can not contain the dash sign, the dash sign(s) will be replaced by underscore.  
